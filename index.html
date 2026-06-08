@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кабинет зуботехнической лаборатории · демо (white-label)</title>
+<style>
+/* ============================================================
+   ОБЕЗЛИЧЕННОЕ WHITE-LABEL ДЕМО
+   Бренд и цвет переключаются на лету (панель 🎨).
+   Базовая тема — индиго-фиолетовый.
+   ============================================================ */
+:root{
+  --brand:        #5b4cdb;   /* индиго-фиолетовый (база) */
+  --brand-dark:   #3f33ad;
+  --brand-light:  #ecebfb;
+  --navy:         #23263f;   /* тёмный для контраста */
+  --accent:       #23263f;
+
+  --ink:          #1d2230;
+  --muted:        #6b7280;
+  --line:         #e6e4ee;
+  --bg:           #f5f4f8;
+  --card:         #ffffff;
+  --ok:           #1f9d6b;
+  --warn:         #d98a25;
+  --info:         #2f7fd1;
+  --danger:       #d6533f;
+
+  --radius:       14px;
+  --shadow:       0 1px 2px rgba(20,20,40,.06), 0 8px 24px rgba(20,20,40,.07);
+  --shadow-lg:    0 12px 40px rgba(20,20,40,.20);
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.45}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:inherit;font-size:14px}
+.hidden{display:none !important}
+a{color:var(--brand);text-decoration:none}
+
+/* ---------- ЛОГОТИП (нейтральный, перекрашиваемый) ---------- */
+.brandmark{display:flex;align-items:center;gap:10px}
+.brandmark .wm{font-weight:900;font-size:18px;letter-spacing:.3px;color:var(--brand);border:2.5px solid var(--brand);border-radius:9px;padding:4px 11px;line-height:1;white-space:nowrap}
+.brandmark small{display:block;font-weight:500;font-size:10px;color:var(--muted);letter-spacing:.3px;text-transform:uppercase;margin-top:3px}
+
+/* ---------- ШАПКА ---------- */
+.topbar{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:18px;padding:0 22px;height:64px}
+.nav{display:flex;gap:4px;margin-left:10px}
+.nav button{padding:8px 14px;border-radius:9px;color:var(--muted);font-weight:600;font-size:14px}
+.nav button:hover{background:var(--bg);color:var(--ink)}
+.nav button.active{background:var(--brand-light);color:var(--brand-dark)}
+.spacer{flex:1}
+.rolepill{display:flex;align-items:center;gap:9px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:5px 6px 5px 13px}
+.rolepill .who{font-size:13px;font-weight:700;line-height:1.1}
+.rolepill .who span{display:block;font-size:11px;font-weight:500;color:var(--muted)}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px}
+.switch{font-size:12px;color:var(--brand);font-weight:700;padding:6px 10px;border-radius:8px;border:1px solid var(--brand-light)}
+.switch:hover{background:var(--brand-light)}
+
+/* ---------- LAYOUT ---------- */
+.wrap{max-width:1100px;margin:0 auto;padding:26px 22px 80px}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:20px;gap:16px;flex-wrap:wrap}
+.page-head h1{font-size:25px;margin:0 0 3px;letter-spacing:-.5px}
+.page-head p{margin:0;color:var(--muted);font-size:14px}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:10px;font-weight:700;font-size:14px;transition:.15s}
+.btn-primary{background:var(--brand);color:#fff;box-shadow:0 4px 12px rgba(20,20,40,.18)}
+.btn-primary:hover{background:var(--brand-dark)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--brand);color:var(--brand)}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-sm{padding:8px 13px;font-size:13px}
+
+/* ---------- CARDS / KPI ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
+.kpi .v{font-size:27px;font-weight:800;letter-spacing:-.5px}
+.kpi .l{font-size:12.5px;color:var(--muted);margin-top:2px}
+.kpi .t{font-size:11.5px;font-weight:700;margin-top:7px;display:inline-block;padding:2px 8px;border-radius:6px}
+.t.up{background:#e7f6ee;color:var(--ok)} .t.down{background:#fdecea;color:var(--danger)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+
+/* ---------- LIST ---------- */
+.list{display:flex;flex-direction:column}
+.list .row{display:grid;grid-template-columns:96px 1fr 180px 150px 130px;gap:14px;align-items:center;
+  padding:15px 18px;border-bottom:1px solid var(--line);cursor:pointer;transition:.12s}
+.list .row:last-child{border-bottom:none}
+.list .row:hover{background:var(--brand-light)}
+.list .head{background:#fbfafd;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700;cursor:default}
+.list .head:hover{background:#fbfafd}
+.num{font-weight:800;color:var(--brand-dark)}
+.pt-name{font-weight:700;font-size:14.5px}
+.pt-sub{font-size:12.5px;color:var(--muted);margin-top:1px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.b-new{background:#eef4fb;color:var(--info)}
+.b-prog{background:#fff4e3;color:var(--warn)}
+.b-appr{background:var(--brand-light);color:var(--brand-dark)}
+.b-ready{background:#e7f6ee;color:var(--ok)}
+.b-done{background:#eef1f2;color:var(--muted)}
+
+/* ---------- FORM ---------- */
+.form-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:22px;align-items:start}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:#fff;transition:.15s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-light)}
+.section-title{font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#fff;background:var(--brand);
+  margin:0 0 14px;padding:7px 12px;border-radius:7px;display:flex;align-items:center;gap:8px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* ---------- TOOTH CHART ---------- */
+.codes{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.code{display:flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;font-size:12.5px;font-weight:600;background:#fff}
+.code:hover{border-color:var(--brand)}
+.code.sel{background:var(--brand);color:#fff;border-color:var(--brand)}
+.code b{font-weight:900;width:16px;text-align:center}
+.tooth-wrap{background:linear-gradient(180deg,#fbfafd,#f1eff9);border:1px solid var(--line);border-radius:12px;padding:16px 10px}
+.tooth-row{display:flex;justify-content:center;gap:4px;margin:4px 0;flex-wrap:nowrap}
+.tooth{width:32px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
+.tooth .crown{width:28px;height:32px;border:1.5px solid #d0cade;border-radius:7px 7px 10px 10px;background:#fff;
+  display:grid;place-items:center;font-size:12px;font-weight:800;color:var(--brand-dark);transition:.1s}
+.tooth:hover .crown{border-color:var(--brand);transform:translateY(-2px)}
+.tooth.has .crown{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 3px 8px rgba(20,20,40,.2)}
+.tooth .n{font-size:9.5px;color:var(--muted)}
+.tooth.has .n{color:var(--brand-dark);font-weight:800}
+.midline{height:1px;background:var(--line);margin:11px 18px;position:relative}
+.midline span{position:absolute;left:50%;top:-9px;transform:translateX(-50%);background:#f4f1fa;padding:0 8px;font-size:10px;color:var(--muted)}
+.sel-summary{margin-top:13px;padding:12px;border:1px dashed var(--brand);border-radius:10px;background:var(--brand-light);font-size:13px;min-height:42px}
+.sel-summary b{color:var(--brand-dark)}
+.chip-t{display:inline-block;background:#fff;border:1px solid var(--brand);color:var(--brand-dark);border-radius:6px;padding:2px 8px;margin:3px 4px 0 0;font-size:12px;font-weight:700}
+
+/* ---------- ORDER DETAIL ---------- */
+.detail-grid{display:grid;grid-template-columns:1fr 360px;gap:22px;align-items:start}
+.timeline{list-style:none;margin:0;padding:0}
+.timeline li{position:relative;padding:0 0 20px 26px;border-left:2px solid var(--line)}
+.timeline li:last-child{border-left-color:transparent;padding-bottom:0}
+.timeline li::before{content:"";position:absolute;left:-7px;top:1px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--line)}
+.timeline li.done::before{background:var(--ok);border-color:var(--ok)}
+.timeline li.cur::before{background:var(--brand);border-color:var(--brand);box-shadow:0 0 0 4px var(--brand-light)}
+.timeline .tl-t{font-weight:700;font-size:14px}
+.timeline .tl-d{font-size:12px;color:var(--muted)}
+.kv{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px;gap:10px}
+.kv:last-child{border-bottom:none}
+.kv .k{color:var(--muted)} .kv .v{font-weight:700;text-align:right}
+.checklist{list-style:none;margin:0;padding:0;font-size:13.5px}
+.checklist li{display:flex;align-items:center;gap:9px;padding:6px 0}
+.checklist input{width:16px;height:16px;accent-color:var(--brand)}
+.chat{display:flex;flex-direction:column;gap:10px;max-height:320px;overflow:auto;padding:4px}
+.msg{max-width:82%;padding:9px 13px;border-radius:13px;font-size:13.5px;line-height:1.4}
+.msg .m-who{font-size:11px;font-weight:700;opacity:.7;margin-bottom:2px}
+.msg.them{background:var(--bg);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.me{background:var(--brand);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.msg.me .m-who{color:#e7e2fb}
+.chat-input{display:flex;gap:8px;margin-top:12px}
+.chat-input input{flex:1;padding:10px 13px;border:1px solid var(--line);border-radius:10px}
+.file-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg);border:1px solid var(--line);border-radius:9px;font-size:13px;font-weight:600;margin:4px 6px 4px 0}
+.file-chip .ic{width:26px;height:26px;border-radius:6px;background:var(--brand-light);color:var(--brand);display:grid;place-items:center;font-size:10px;font-weight:800}
+.file-chip .v3d{margin-left:4px;font-size:11px;color:var(--brand);font-weight:800;border:1px solid var(--brand-light);padding:2px 6px;border-radius:5px}
+
+/* ---------- LOGIN ---------- */
+.login{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr}
+.login-art{background:linear-gradient(150deg,#1b1f3a,var(--brand-dark) 45%,var(--brand));color:#fff;padding:52px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.login-art::before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:rgba(255,255,255,.07);top:-120px;right:-120px}
+.login-art::after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.05);bottom:-100px;left:-60px}
+.login-art .lg{position:relative}
+.login-art .lg .wm{font-weight:900;font-size:23px;letter-spacing:.3px;border:3px solid #fff;border-radius:11px;padding:5px 13px;display:inline-block;color:#fff}
+.login-art .lg small{display:block;font-weight:500;font-size:10px;letter-spacing:1px;opacity:.8;margin-top:6px;text-transform:uppercase}
+.login-art h2{font-size:32px;line-height:1.15;letter-spacing:-.8px;margin:20px 0 14px;position:relative;max-width:460px}
+.login-art p.lede{font-size:15px;opacity:.92;max-width:420px;position:relative;margin:0 0 24px}
+.feat{display:flex;flex-direction:column;gap:13px;position:relative}
+.feat div{display:flex;gap:12px;align-items:flex-start;font-size:14px}
+.feat .fi{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.14);display:grid;place-items:center;flex-shrink:0;font-size:15px}
+.lbene{display:flex;gap:10px;margin-top:22px;position:relative;flex-wrap:wrap}
+.lbene div{flex:1;min-width:130px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:11px;padding:11px 13px}
+.lbene b{display:block;font-size:14px;font-weight:800;margin-bottom:2px}
+.lbene span{font-size:11px;opacity:.85;line-height:1.3;display:block}
+.login-art .credit{position:relative;font-size:12.5px;opacity:.75}
+.login-form{display:flex;flex-direction:column;justify-content:center;padding:52px;max-width:520px}
+.login-form h3{font-size:24px;margin:0 0 6px;letter-spacing:-.4px}
+.login-form .sub{color:var(--muted);margin:0 0 26px}
+.role-pick{display:flex;flex-direction:column;gap:12px}
+.role-card{display:flex;align-items:center;gap:15px;padding:18px;border:1.5px solid var(--line);border-radius:14px;text-align:left;transition:.15s;background:#fff}
+.role-card:hover{border-color:var(--brand);box-shadow:var(--shadow);transform:translateY(-1px)}
+.role-card .ri{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.role-card .ri.doc{background:var(--brand-light);color:var(--brand)}
+.role-card .ri.lab{background:#e9ebf3;color:var(--navy)}
+.role-card .rt{font-weight:800;font-size:16px}
+.role-card .rs{font-size:13px;color:var(--muted);margin-top:2px}
+.role-card .arr{margin-left:auto;color:var(--muted);font-size:20px}
+.demo-note{margin-top:24px;padding:13px 15px;background:var(--brand-light);border-radius:10px;font-size:12.5px;color:var(--brand-dark)}
+
+/* ---------- MISC ---------- */
+.banner{background:linear-gradient(100deg,var(--brand-light),#fff);border:1px solid var(--brand-light);border-left:4px solid var(--brand);
+  border-radius:12px;padding:14px 17px;margin-bottom:20px;display:flex;gap:13px;align-items:center}
+.banner .bi{font-size:22px}
+.banner b{color:var(--brand-dark)}
+.banner p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;
+  padding:14px 22px;border-radius:12px;font-weight:600;font-size:14px;box-shadow:var(--shadow-lg);opacity:0;transition:.35s;z-index:200;display:flex;gap:10px;align-items:center;max-width:90vw}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast .ti{color:#b9aef5}
+.footer-note{text-align:center;color:var(--muted);font-size:12px;margin-top:40px;line-height:1.6}
+
+/* ---------- ПРИВЕТСТВИЕ ---------- */
+.welcome{position:fixed;inset:0;z-index:300;background:linear-gradient(150deg,#1b1f3a,var(--brand-dark) 45%,var(--brand));display:grid;place-items:center;padding:22px;overflow:auto}
+.welcome-card{background:#fff;border-radius:20px;max-width:580px;width:100%;padding:38px 40px;box-shadow:0 30px 80px rgba(10,5,30,.4);animation:wpop .35s ease}
+@keyframes wpop{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.welcome-card .wlogo .wm{font-weight:900;font-size:21px;color:var(--brand);border:3px solid var(--brand);border-radius:10px;padding:4px 12px;display:inline-block}
+.welcome-card .wlogo small{display:block;font-weight:500;font-size:10px;letter-spacing:.5px;color:var(--muted);text-transform:uppercase;margin-top:6px}
+.welcome-card h2{font-size:25px;letter-spacing:-.5px;margin:18px 0 6px}
+.welcome-card .lede{color:var(--muted);font-size:15px;margin:0 0 20px;line-height:1.5}
+.welcome-card .wsub{font-weight:800;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--brand-dark);margin:0 0 11px}
+.wfeat{display:grid;grid-template-columns:1fr 1fr;gap:11px 18px;margin:0 0 22px}
+.wfeat>div{display:flex;gap:9px;font-size:12.5px;line-height:1.4;align-items:flex-start}
+.wfeat .wi{font-size:16px;flex-shrink:0;line-height:1.2}
+.wfeat b{color:var(--ink)}
+.welcome-card .wbenef{font-size:13px;line-height:1.55;color:var(--muted);margin:0 0 24px;padding:13px 15px;background:var(--brand-light);border-radius:11px}
+@media(max-width:560px){.wfeat{grid-template-columns:1fr}}
+.welcome-steps{list-style:none;margin:0 0 26px;padding:0;display:flex;flex-direction:column;gap:12px}
+.welcome-steps li{display:flex;gap:13px;align-items:flex-start;font-size:14.5px;line-height:1.45}
+.welcome-steps .sn{width:26px;height:26px;border-radius:8px;background:var(--brand-light);color:var(--brand-dark);font-weight:800;display:grid;place-items:center;flex-shrink:0;font-size:13px}
+.welcome-card .wbtn{display:inline-flex;align-items:center;gap:9px;background:var(--brand);color:#fff;font-weight:700;font-size:15.5px;padding:14px 26px;border-radius:12px;box-shadow:0 6px 18px rgba(20,20,40,.25);transition:.15s}
+.welcome-card .wbtn:hover{background:var(--brand-dark)}
+.welcome-card .wsign{margin-top:20px;font-size:12.5px;color:var(--muted)}
+.wtrust{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 24px}
+.wtrust span{font-size:11.5px;font-weight:700;color:var(--brand-dark);background:var(--brand-light);border-radius:999px;padding:5px 11px}
+.wcta{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.wlink{font-size:13px;font-weight:700;color:var(--brand);border-bottom:1px dashed var(--brand);padding-bottom:1px}
+.wlink:hover{color:var(--brand-dark)}
+.ltrust{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;position:relative}
+.ltrust span{font-size:11px;font-weight:700;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:4px 10px}
+/* ---- ТУР ---- */
+.tour{position:fixed;inset:0;z-index:700;pointer-events:none}
+.tour-spot{position:fixed;border-radius:11px;box-shadow:0 0 0 9999px rgba(16,14,38,.60);transition:.22s ease;pointer-events:none}
+.tour-tip{position:fixed;z-index:702;width:300px;max-width:calc(100vw - 24px);background:#fff;border-radius:14px;box-shadow:var(--shadow-lg);padding:16px 17px;pointer-events:auto;animation:wpop .2s ease}
+.tour-tip .tt-h{font-weight:800;font-size:15px;margin-bottom:5px}
+.tour-tip .tt-d{font-size:13px;color:var(--muted);line-height:1.45}
+.tour-tip .tt-f{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+.tour-tip .tt-prog{font-size:12px;font-weight:700;color:var(--muted)}
+.tour-tip .tt-btns{display:flex;gap:8px}
+.tour-tip .tt-skip{font-size:13px;font-weight:600;color:var(--muted);padding:7px 10px;border-radius:8px}
+.tour-tip .tt-skip:hover{background:var(--bg)}
+.tour-tip .tt-next{font-size:13px;font-weight:700;color:#fff;background:var(--brand);padding:7px 15px;border-radius:8px}
+.tour-tip .tt-next:hover{background:var(--brand-dark)}
+
+/* ---------- ПАНЕЛЬ ДЕМО (бренд + цвет) ---------- */
+.demofab{position:fixed;right:18px;bottom:18px;z-index:600;background:var(--ink);color:#fff;border-radius:999px;
+  padding:11px 17px;font-weight:700;font-size:13px;box-shadow:var(--shadow-lg);display:flex;gap:8px;align-items:center}
+.demofab:hover{transform:translateY(-1px)}
+.demopanel{position:fixed;right:18px;bottom:66px;z-index:600;width:288px;background:#fff;border:1px solid var(--line);
+  border-radius:16px;box-shadow:var(--shadow-lg);padding:17px 18px}
+.demopanel .dt{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:0 0 9px}
+.demopanel .dt:not(:first-child){margin-top:17px}
+.dchips{display:flex;flex-direction:column;gap:8px}
+.dchip{display:flex;align-items:center;gap:10px;padding:9px 11px;border:1.5px solid var(--line);border-radius:11px;text-align:left;transition:.12s;width:100%}
+.dchip:hover{border-color:var(--brand)}
+.dchip.on{border-color:var(--brand);background:var(--brand-light)}
+.dchip .dot{width:18px;height:18px;border-radius:5px;flex-shrink:0}
+.dchip .dn{font-weight:800;font-size:13.5px;line-height:1.1}
+.dchip .ds{font-size:11px;color:var(--muted)}
+.swrow{display:flex;gap:9px;flex-wrap:wrap}
+.sw{width:30px;height:30px;border-radius:8px;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer;transition:.12s}
+.sw:hover{transform:scale(1.08)}
+.sw.on{box-shadow:0 0 0 2px var(--ink)}
+.demohint{font-size:11.5px;color:var(--muted);margin:14px 0 0;line-height:1.45}
+
+@media(max-width:900px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .form-grid,.detail-grid{grid-template-columns:1fr}
+  .login{grid-template-columns:1fr}.login-art{display:none}
+  .list .row{grid-template-columns:70px 1fr 110px;gap:10px}
+  .list .row .col-tech,.list .row .col-date,.list .head .col-tech,.list .head .col-date{display:none}
+  .nav{display:none}
+  .tooth{width:26px}.tooth .crown{width:23px;height:27px}
+  .welcome-card{padding:28px 24px}.welcome-card h2{font-size:21px}
+  .demopanel{width:calc(100vw - 36px)}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ ПРИВЕТСТВИЕ ============ -->
+<div id="welcome" class="welcome">
+  <div class="welcome-card">
+    <div class="wlogo"><span class="wm js-bname">ВАША ЗТЛ</span><small class="js-bsub">здесь будет ваш логотип</small></div>
+    <h2>Здравствуйте!</h2>
+    <p class="lede">Это демо онлайн-кабинета зуботехнической лаборатории — единое окно, где клиника-заказчик оформляет работы, следит за производством и общается с техниками. Сервис, который мы предлагаем разработать под вашу ЗТЛ: на базе уже работающего продукта, под ключ и в вашем фирменном стиле.</p>
+    <p class="wsub">Что кабинет берёт на себя</p>
+    <div class="wfeat">
+      <div><span class="wi">🦷</span><div><b>Электронный заказ-наряд</b> — формула зубов, вид работы, цвет, материал. Лаборатория получает наряд целиком, без расшифровки почерка и дозвонов.</div></div>
+      <div><span class="wi">✅</span><div><b>Согласование конструкции</b> — техник показывает дизайн/Wax-Up, врач подтверждает или просит правку онлайн.</div></div>
+      <div><span class="wi">🔄</span><div><b>Статус в реальном времени</b> — приём → согласование → производство → готов → доставка. Без звонков «ну что там?».</div></div>
+      <div><span class="wi">🧊</span><div><b>3D-сканы и файлы</b> — STL/PLY открываются прямо в заказе, файлы Exocad не теряются.</div></div>
+      <div><span class="wi">💬</span><div><b>Чат вне мессенджеров</b> — переписка по заказу и прямой чат с лабораторией не зависят от блокировок.</div></div>
+      <div><span class="wi">🚚</span><div><b>Курьер, счета, уведомления</b> — вызов курьера (свой и СДЭК), биллинг и push — в одном кабинете. Ставится на телефон как приложение (PWA).</div></div>
+    </div>
+    <p class="wsub">Что это даёт лаборатории</p>
+    <p class="wbenef">Меньше ошибок приёма и переделок по цвету · прозрачность разгружает менеджеров от звонков · ничего не теряется при блокировках мессенджеров · удобный кабинет удерживает врачей и упрощает привлечение новых · единый поток заказов масштабируется при росте.</p>
+    <p class="wsub">Почему это надёжно</p>
+    <div class="wtrust">
+      <span>⚡ Боевой продукт, не макет</span>
+      <span>📱 PWA — ставится на телефон</span>
+      <span>🔔 Push-уведомления</span>
+      <span>🧊 3D STL/PLY в браузере</span>
+      <span>🚚 Интеграция СДЭК</span>
+      <span>🏥 Мультиклиника и роли</span>
+      <span>🔐 Файлы и доступы под защитой</span>
+    </div>
+    <ul class="welcome-steps">
+      <li><span class="sn">1</span><div>Выберите роль <b>«Я врач-ортопед»</b> — это вид со стороны клиники-заказчика.</div></li>
+      <li><span class="sn">2</span><div>Нажмите <b>«Новый заказ»</b> и попробуйте отметить зубы на формуле — привычный бумажный заказ-наряд, только онлайн и сразу полный.</div></li>
+      <li><span class="sn">3</span><div>Откройте любой заказ — статус, чат с техником и файлы. Затем <b>«Сменить роль»</b> — посмотрите кабинет со стороны лаборатории.</div></li>
+    </ul>
+    <div class="wcta"><button class="wbtn" onclick="startDemo()">Открыть демо →</button><a class="wlink" href="onepager.html" target="_blank">📄 Описание одной страницей (PDF)</a></div>
+    <div class="wsign">Данные пациентов — тестовые. Услуги и цены — пример, настраиваются под ваш прайс и процессы.</div>
+  </div>
+</div>
+
+<!-- ============ ЭКРАН ВХОДА ============ -->
+<div id="screen-login" class="login">
+  <div class="login-art">
+    <div class="lg"><span class="wm js-bname">ВАША ЗТЛ</span><small class="js-bsub">здесь будет ваш логотип</small></div>
+    <div>
+      <h2>Кабинет для клиник и лаборатории</h2>
+      <p class="lede">Единое пространство для заказов на зубопротезирование: заказ-наряд, согласование, файлы, статусы и переписка — в одном месте, без потерь. Готовый сервис под вашу ЗТЛ.</p>
+      <div class="feat">
+        <div><div class="fi">🦷</div><div>Электронный заказ-наряд: формула зубов, цвет и фото — лаборатория получает всё сразу</div></div>
+        <div><div class="fi">✅</div><div>Согласование конструкции и Wax-Up онлайн — врач подтверждает или просит правку</div></div>
+        <div><div class="fi">🔄</div><div>Статус работы в реальном времени — без звонков «ну что там?»</div></div>
+        <div><div class="fi">🧊</div><div>3D-сканы STL/PLY и файлы Exocad открываются прямо в заказе</div></div>
+        <div><div class="fi">🔒</div><div>Чат и файлы в системе — не зависят от блокировок мессенджеров</div></div>
+        <div><div class="fi">🚚</div><div>Курьер (свой и СДЭК), счета и push-уведомления — в одном кабинете на телефоне (PWA)</div></div>
+      </div>
+      <div class="lbene">
+        <div><b>Меньше переделок</b><span>точный цвет и полный наряд без ошибок</span></div>
+        <div><b>Ничего не теряется</b><span>файлы и история заказов в одном месте</span></div>
+        <div><b>Врачи возвращаются</b><span>удобный кабинет = лояльность клиник</span></div>
+      </div>
+      <div class="ltrust"><span>⚡ Боевой продукт</span><span>📱 PWA</span><span>🔔 Push</span><span>🧊 3D STL/PLY</span><span>🚚 СДЭК</span><span>🏥 Мультиклиника</span></div>
+    </div>
+    <div class="credit">Демо-версия white-label кабинета · бренд и цвет настраиваются под вашу лабораторию</div>
+  </div>
+  <div class="login-form">
+    <h3>Вход в кабинет</h3>
+    <p class="sub">Демонстрационная версия. Выберите роль, чтобы посмотреть интерфейс.</p>
+    <div class="role-pick">
+      <button class="role-card" onclick="login('doctor')">
+        <div class="ri doc">🩺</div>
+        <div><div class="rt">Я врач-ортопед</div><div class="rs">Оформляю заказы и слежу за их статусом</div></div>
+        <div class="arr">→</div>
+      </button>
+      <button class="role-card" onclick="login('lab')">
+        <div class="ri lab">🏭</div>
+        <div><div class="rt">Я сотрудник лаборатории</div><div class="rs">Принимаю заказы, веду производство, выставляю счета</div></div>
+        <div class="arr">→</div>
+      </button>
+    </div>
+    <div class="demo-note">💡 Обезличенный прототип для зуботехнической лаборатории. Услуги и цены — пример (настраиваются под ваш прайс). Бренд и цвет — кнопка 🎨 внизу справа.</div>
+  </div>
+</div>
+
+<!-- ============ ПРИЛОЖЕНИЕ ============ -->
+<div id="app" class="hidden">
+  <div class="topbar">
+    <div class="brandmark"><span class="wm js-bname">ВАША ЗТЛ</span><small>кабинет лаборатории</small></div>
+    <div class="nav" id="nav"></div>
+    <div class="spacer"></div>
+    <button class="switch" onclick="startTour()" style="margin-right:8px">❔ Тур</button>
+    <div class="rolepill">
+      <button class="switch" onclick="logout()">Сменить роль</button>
+      <div class="who" id="who"></div>
+      <div class="avatar" id="avatar"></div>
+    </div>
+  </div>
+  <div class="wrap" id="content"></div>
+</div>
+
+<!-- ============ ПАНЕЛЬ ДЕМО ============ -->
+<button class="demofab" onclick="toggleDemo()">🎨 Бренд и цвет</button>
+<div id="demopanel" class="demopanel hidden">
+  <p class="dt">Демо-бренд</p>
+  <div class="dchips" id="brandChips"></div>
+  <p class="dt">Акцентный цвет</p>
+  <div class="swrow" id="accentSw"></div>
+  <p class="demohint">Это white-label демо: один и тот же продукт — в фирменном стиле любой лаборатории. На внедрении ставим ваш логотип, цвет и домен.</p>
+</div>
+
+<!-- ============ ТУР (подсказки) ============ -->
+<div id="tour" class="tour hidden">
+  <div id="tourSpot" class="tour-spot"></div>
+  <div id="tourTip" class="tour-tip">
+    <div class="tt-h" id="tourTitle"></div>
+    <div class="tt-d" id="tourText"></div>
+    <div class="tt-f"><span class="tt-prog" id="tourProg"></span><span class="tt-btns"><button class="tt-skip" onclick="endTour()">Пропустить</button><button class="tt-next" id="tourNext" onclick="nextTour()">Далее</button></span></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="ti">✓</span><span id="toast-msg"></span></div>
+
+<script>
+/* ====================== БРЕНД / ЦВЕТ (white-label) ====================== */
+const ACCENTS = {
+  indigo:  {b:"#5b4cdb", d:"#3f33ad", l:"#ecebfb"},
+  violet:  {b:"#8a3fd1", d:"#6628a6", l:"#f2e9fb"},
+  steel:   {b:"#2f6df0", d:"#1f4ec2", l:"#e9f1fe"},
+  teal:    {b:"#0fa3b4", d:"#0a7884", l:"#e1f5f7"},
+  green:   {b:"#1f9d6b", d:"#15734e", l:"#e6f6ee"},
+  graphite:{b:"#4b5566", d:"#313a49", l:"#eef1f5"},
+};
+const ACCENT_ORDER = ["indigo","violet","steel","teal","green","graphite"];
+const BRANDS = [
+  {name:"ВАША ЛАБОРАТОРИЯ", short:"ВАША ЗТЛ", sub:"здесь будет ваш логотип", accent:"indigo"},
+  {name:"Дент-Арт",        short:"Дент-Арт",  sub:"цифровая лаборатория",    accent:"teal"},
+  {name:"ОртоЛаб",         short:"ОртоЛаб",   sub:"зуботехническая лаборатория", accent:"steel"},
+];
+let curBrandIdx=0, curAccent="indigo";
+function BN(){ return BRANDS[curBrandIdx].short; }
+function BNF(){ return BRANDS[curBrandIdx].name; }
+function applyAccent(key){
+  curAccent=key; const a=ACCENTS[key]; const r=document.documentElement.style;
+  r.setProperty("--brand",a.b); r.setProperty("--brand-dark",a.d); r.setProperty("--brand-light",a.l);
+  document.querySelectorAll("#accentSw .sw").forEach(s=>s.classList.toggle("on",s.dataset.k===key));
+}
+function applyBrand(i){
+  curBrandIdx=i; const b=BRANDS[i]; applyAccent(b.accent);
+  document.querySelectorAll(".js-bname").forEach(e=>e.textContent=b.short);
+  document.querySelectorAll(".js-bsub").forEach(e=>e.textContent=b.sub);
+  document.querySelectorAll("#brandChips .dchip").forEach((c,j)=>c.classList.toggle("on",j===i));
+  if(!document.getElementById("app").classList.contains("hidden")) render();
+}
+function toggleDemo(){ document.getElementById("demopanel").classList.toggle("hidden"); }
+function buildDemoPanel(){
+  document.getElementById("brandChips").innerHTML = BRANDS.map((b,i)=>{
+    const a=ACCENTS[b.accent];
+    return `<button class="dchip" onclick="applyBrand(${i})"><span class="dot" style="background:${a.b}"></span><span><span class="dn">${b.short}</span><span class="ds">${b.sub}</span></span></button>`;
+  }).join("");
+  document.getElementById("accentSw").innerHTML = ACCENT_ORDER.map(k=>
+    `<button class="sw" data-k="${k}" style="background:${ACCENTS[k].b}" onclick="applyAccent('${k}')"></button>`).join("");
+}
+
+/* ====================== ДАННЫЕ ====================== */
+const STATUS = {
+  new:  {label:"Новый",            cls:"b-new"},
+  appr: {label:"На согласовании",  cls:"b-appr"},
+  prog: {label:"В производстве",   cls:"b-prog"},
+  ready:{label:"Готов · доставка", cls:"b-ready"},
+  done: {label:"Завершён",         cls:"b-done"},
+};
+/* виды работ — пример прайса (настраивается под лабораторию) */
+const SERVICES = [
+  ["Циркониевая коронка","8 000 ₽"],
+  ["Циркониевая коронка анатомическая","9 000 ₽"],
+  ["Циркониевая коронка на импланте (винт.)","11 000 ₽"],
+  ["Циркониевая коронка на импланте (цемент.)","13 000 ₽"],
+  ["Металлокерамика 1 ед.","5 500 ₽"],
+  ["Металлокерамика с опорой на имплантат (винт.)","11 000 ₽"],
+  ["Керамическая прессованная коронка","8 000 ₽"],
+  ["Керамический прессованный винир","9 000 ₽"],
+  ["PMMA провизорная коронка (культя)","3 000 ₽"],
+  ["Цельнолитая коронка КХС","4 000 ₽"],
+  ["Вкладка культевая","2 000 ₽"],
+  ["Бюгельный протез (замковая фиксация)","25 000 ₽"],
+  ["Бюгельный протез (кламмерная фиксация)","25 000 ₽"],
+  ["Wax-Up / прототип коронки","500 ₽"],
+];
+const SHADES = ["A1","A2","A3","A3.5","A4","B1","B2","B3","B4","C1","C2","C3","C4","D2","D3","D4"];
+const TECHS = ["Игорь Л.","Сергей К.","Алексей П."];
+/* коды видов работ из заказ-наряда */
+const CODES = [
+  ["C","коронка"],["V","винир"],["I","имплант"],["T","временная коронка"],
+  ["O","вкладка/накладка"],["P","культевая вкладка"],["X","промежут. часть"],["W","wax-up"]
+];
+/* комплектация к отправке */
+const SHIP = ["Слепки","Регистраты","Модели-антагонисты","Мастер-модели","Абатмент","Врачебный винт","Трансферные винты","Трансфера"];
+
+let orders = [
+  {id:"ZL-1042", first:"Михаил", last:"Орлов", clinic:"Клиника «Смайл»", doctor:"Иванова Е.В.",
+   service:"Циркониевая коронка на импланте (винт.)", teeth:{26:"I"}, shadeFrom:"A2", shade:"A2",
+   material:"Диоксид циркония", implant:"винтовая · ø4.0 · Osstem", status:"prog", tech:"Игорь Л.", date:"28.05", ready:"02.06", price:"11 000 ₽",
+   chat:[{who:"Лаборатория · Игорь",me:false,t:"Скан получили, культя читается. Уступ круговой?"},
+         {who:"Вы",me:true,t:"Да, круговой 360°. Регистрат прикуса — отдельным файлом."}],
+   files:[{n:"scan_26_upper.stl",d3:true},{n:"shade_photo.jpg",d3:false}]},
+  {id:"ZL-1041", first:"Елена", last:"Фёдорова", clinic:"Дент-Люкс", doctor:"Соколов Р.И.",
+   service:"Металлокерамика 1 ед.", teeth:{14:"C",15:"X",16:"C"}, shadeFrom:"A3", shade:"A3",
+   material:"Металлокерамика CoCr", implant:"—", status:"appr", tech:"—", date:"29.05", ready:"04.06", price:"16 500 ₽",
+   chat:[{who:"Лаборатория · Сергей",me:false,t:"Смоделировали мост 14-16, 15 — промежуточная. Посмотрите на согласование."}],
+   files:[{n:"scan_upper.stl",d3:true},{n:"scan_lower.stl",d3:true},{n:"wax_up.html",d3:true}]},
+  {id:"ZL-1040", first:"Илья", last:"Зайцев", clinic:"Клиника «Смайл»", doctor:"Иванова Е.В.",
+   service:"Бюгельный протез (кламмерная фиксация)", teeth:{34:"C",35:"X",36:"C",37:"C"}, shadeFrom:"A3.5", shade:"A3.5",
+   material:"КХС + акрил", implant:"—", status:"ready", tech:"Алексей П.", date:"24.05", ready:"30.05", price:"25 000 ₽",
+   chat:[{who:"Лаборатория · Алексей",me:false,t:"Бюгель готов, отправляем сегодня курьером. Трек пришлём в чат."}],
+   files:[{n:"model_scan.stl",d3:true}]},
+  {id:"ZL-1039", first:"Анна", last:"Соколова", clinic:"Альфа-Дент", doctor:"Петров Т.М.",
+   service:"Вкладка культевая", teeth:{36:"P"}, shadeFrom:"—", shade:"—",
+   material:"КХС", implant:"—", status:"new", tech:"—", date:"30.05", ready:"—", price:"2 000 ₽",
+   chat:[], files:[{n:"snimok_36.jpg",d3:false}]},
+  {id:"ZL-1038", first:"Тимур", last:"Зорин", clinic:"Дент-Люкс", doctor:"Соколов Р.И.",
+   service:"Циркониевая коронка", teeth:{46:"C"}, shadeFrom:"A2", shade:"A2",
+   material:"Диоксид циркония", implant:"—", status:"done", tech:"Игорь Л.", date:"18.05", ready:"23.05", price:"8 000 ₽",
+   chat:[{who:"Лаборатория · Игорь",me:false,t:"Работа завершена и доставлена. Спасибо!"}],
+   files:[{n:"scan_46.stl",d3:true}]},
+];
+
+let role="doctor", cur=null, activeNav="orders";
+
+/* ====================== ПРИВЕТСТВИЕ ====================== */
+function startDemo(){ document.getElementById("welcome").classList.add("hidden"); }
+
+/* ====================== ВХОД / ВЫХОД ====================== */
+function login(r){
+  role=r;
+  document.getElementById("screen-login").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  const who=document.getElementById("who"), av=document.getElementById("avatar");
+  if(r==="doctor"){ who.innerHTML="Е. В. Иванова<span>Врач-ортопед · Клиника «Смайл»</span>"; av.textContent="ЕИ"; }
+  else            { who.innerHTML="Менеджер лаборатории<span>"+BN()+"</span>"; av.textContent=(BN().trim()[0]||"Л"); }
+  activeNav="orders"; render(); window.scrollTo(0,0);
+  if(!tourSeen){ tourSeen=true; setTimeout(startTour,450); }
+}
+function logout(){
+  document.getElementById("app").classList.add("hidden");
+  document.getElementById("screen-login").classList.remove("hidden"); cur=null;
+}
+
+/* ====================== НАВИГАЦИЯ ====================== */
+function buildNav(){
+  const nav=document.getElementById("nav");
+  const items=role==="doctor"
+    ? [["orders","Мои заказы"],["new","Новый заказ"],["invoices","Счета"]]
+    : [["orders","Заказы"],["board","Производство"],["clients","Врачи"],["invoices","Счета"]];
+  nav.innerHTML=items.map(([k,l])=>`<button class="${activeNav===k?'active':''}" onclick="go('${k}')">${l}</button>`).join("");
+}
+function go(k){ activeNav=k; cur=null; render(); window.scrollTo(0,0); }
+function render(){
+  buildNav();
+  const c=document.getElementById("content");
+  if(cur){ c.innerHTML=viewDetail(cur); return; }
+  if(activeNav==="orders")        c.innerHTML=viewOrders();
+  else if(activeNav==="new")      c.innerHTML=viewNew();
+  else if(activeNav==="board")    c.innerHTML=viewBoard();
+  else if(activeNav==="invoices") c.innerHTML=viewInvoices();
+  else if(activeNav==="clients")  c.innerHTML=viewClients();
+}
+
+/* ====================== СПИСОК ====================== */
+function kpis(){
+  const open=orders.filter(o=>o.status!=="done").length;
+  const appr=orders.filter(o=>o.status==="appr").length;
+  const ready=orders.filter(o=>o.status==="ready").length;
+  return `<div class="kpis">
+    <div class="kpi"><div class="v">${open}</div><div class="l">Активных заказов</div><div class="t up">+2 за неделю</div></div>
+    <div class="kpi"><div class="v">${appr}</div><div class="l">Ждут согласования</div></div>
+    <div class="kpi"><div class="v">${ready}</div><div class="l">Готовы к доставке</div></div>
+    <div class="kpi"><div class="v">1,8%</div><div class="l">Доля переделок</div><div class="t up">−40% к прошлому мес.</div></div>
+  </div>`;
+}
+function teethStr(o){ return Object.keys(o.teeth).map(t=>t+"·"+o.teeth[t]).join(", "); }
+function rowHtml(o){
+  const s=STATUS[o.status];
+  return `<div class="row" onclick="openOrder('${o.id}')">
+    <div class="num">${o.id}</div>
+    <div><div class="pt-name">${o.last} ${o.first[0]}.</div><div class="pt-sub">${o.service} · ${teethStr(o)}</div></div>
+    <div class="col-tech pt-sub">${role==='doctor'? o.clinic : (o.tech==='—'?'<span style="color:#bbb">не назначен</span>':o.tech)}</div>
+    <div class="col-date pt-sub">сдача ${o.ready}</div>
+    <div><span class="badge ${s.cls}">${s.label}</span></div>
+  </div>`;
+}
+function viewOrders(){
+  return kpis()+`
+  <div class="page-head">
+    <div><h1>${role==='doctor'?'Мои заказы':'Заказы в работе'}</h1><p>${role==='doctor'?'Клиника «Смайл» · Иванова Е.В.':'Все поступившие заказы от клиник'}</p></div>
+    ${role==='doctor'?'<button class="btn btn-primary" onclick="go(\'new\')">＋ Новый заказ</button>':''}
+  </div>
+  <div class="card list">
+    <div class="row head"><div>№</div><div>Пациент / работа</div><div class="col-tech">${role==='doctor'?'Клиника':'Техник'}</div><div class="col-date">Срок</div><div>Статус</div></div>
+    ${orders.map(rowHtml).join("")}
+  </div>
+  ${footer()}`;
+}
+
+/* ====================== КАРТОЧКА ====================== */
+function openOrder(id){ cur=orders.find(o=>o.id===id); render(); window.scrollTo(0,0); }
+function timelineHtml(o){
+  const order=["new","appr","prog","ready","done"];
+  const labels={new:["Заказ создан",o.date],appr:["Согласование конструкции",""],prog:["В производстве",o.tech!=="—"?"техник "+o.tech:""],
+    ready:["Готов · доставка",o.ready!=="—"?"к "+o.ready:""],done:["Завершён",""]};
+  const ci=order.indexOf(o.status);
+  return `<ul class="timeline">${order.map((k,i)=>{
+    const cls=i<ci?"done":(i===ci?"cur":"");
+    return `<li class="${cls}"><div class="tl-t">${labels[k][0]}</div><div class="tl-d">${labels[k][1]||(i>ci?'ожидается':'')}</div></li>`;
+  }).join("")}</ul>`;
+}
+function viewDetail(o){
+  const s=STATUS[o.status];
+  const labActions=role==='lab'?`
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      ${o.status==='new'?`<button class="btn btn-primary btn-sm" onclick="advance()">Принять в работу</button>`:''}
+      ${o.status==='appr'?`<button class="btn btn-primary btn-sm" onclick="advance()">Запустить производство</button>`:''}
+      ${o.status==='prog'?`<button class="btn btn-primary btn-sm" onclick="advance()">Отметить готовым</button>`:''}
+      ${o.status==='ready'?`<button class="btn btn-navy btn-sm" onclick="advance()">Завершить заказ</button>`:''}
+      <button class="btn btn-ghost btn-sm" onclick="assignTech()">Назначить техника</button>
+    </div>`:(o.status==='appr'?`<button class="btn btn-primary btn-sm" onclick="approve()">✓ Согласовать конструкцию</button>`:'');
+  const shipBlock=role==='lab'?`
+    <div class="card" style="padding:20px">
+      <div class="section-title">К отправке в клинику</div>
+      <ul class="checklist">${SHIP.map(x=>`<li><input type="checkbox" onclick="toast('Отмечено: ${x}')"> ${x}</li>`).join("")}</ul>
+    </div>`:'';
+  return `
+  <div class="page-head">
+    <div>
+      <p style="margin-bottom:6px"><a onclick="go('orders')" style="cursor:pointer">← К списку заказов</a></p>
+      <h1>Заказ ${o.id} <span class="badge ${s.cls}" style="vertical-align:middle;margin-left:8px">${s.label}</span></h1>
+      <p>${o.last} ${o.first} · ${o.clinic}${role==='lab'?' · врач '+o.doctor:''}</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      ${o.status==='ready'?`<button class="btn btn-navy btn-sm" onclick="toast('Заявка курьеру создана · доставка по городу сегодня')">🚚 Вызвать курьера</button>`:''}
+      <button class="btn btn-ghost btn-sm" onclick="toast('Печать заказ-наряда…')">🖨 Заказ-наряд</button>
+    </div>
+  </div>
+  <div class="detail-grid">
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <div class="card" style="padding:20px">
+        <div class="section-title">Формула зубов и параметры</div>
+        ${toothMini(o.teeth)}
+        <div class="kv"><span class="k">Вид работы</span><span class="v">${o.service}</span></div>
+        <div class="kv"><span class="k">Зубы (FDI)</span><span class="v">${teethStr(o)}</span></div>
+        <div class="kv"><span class="k">Материал</span><span class="v">${o.material}</span></div>
+        ${o.implant!=='—'?`<div class="kv"><span class="k">Имплант</span><span class="v">${o.implant}</span></div>`:''}
+        <div class="kv"><span class="k">Цвет: исходный → требуемый</span><span class="v">${o.shadeFrom} → ${o.shade}</span></div>
+        <div class="kv"><span class="k">Стоимость</span><span class="v" style="color:var(--brand-dark)">${o.price}</span></div>
+        <div style="margin-top:14px">${labActions}</div>
+      </div>
+      <div class="card" style="padding:20px">
+        <div class="section-title">Файлы и сканы</div>
+        ${o.files.map(f=>`<span class="file-chip"><span class="ic">${f.n.split('.').pop().toUpperCase().slice(0,3)}</span>${f.n}${f.d3?'<span class="v3d" onclick="toast(\'Открываю 3D-просмотр…\')">3D ▸</span>':''}</span>`).join("")}
+      </div>
+      ${shipBlock}
+      <div class="card" style="padding:20px"><div class="section-title">История</div>${timelineHtml(o)}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <div class="card" style="padding:20px">
+        <div class="section-title">Чат по заказу</div>
+        <div class="chat" id="chat">${o.chat.length?o.chat.map(m=>`<div class="msg ${m.me?'me':'them'}"><div class="m-who">${m.who}</div>${m.t}</div>`).join(""):'<p style="color:var(--muted);font-size:13px">Сообщений пока нет. Напишите лаборатории…</p>'}</div>
+        <div class="chat-input">
+          <input id="chatbox" placeholder="Сообщение…" onkeydown="if(event.key==='Enter')sendMsg()">
+          <button class="btn btn-primary btn-sm" onclick="sendMsg()">➤</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+function toothMini(teeth){
+  return `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+    ${Object.keys(teeth).map(t=>`<div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <div style="width:36px;height:40px;border-radius:7px 7px 10px 10px;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:900;font-size:14px;box-shadow:0 3px 8px rgba(20,20,40,.2)">${teeth[t]}</div>
+      <div style="font-size:11px;color:var(--brand-dark);font-weight:700">${t}</div></div>`).join("")}
+    <div style="align-self:center;color:var(--muted);font-size:13px;margin-left:6px">буква — вид работы по зубу</div>
+  </div>`;
+}
+function sendMsg(){
+  const b=document.getElementById("chatbox"); if(!b.value.trim())return;
+  cur.chat.push({who:role==='doctor'?'Вы':'Лаборатория · Сергей',me:true,t:b.value.trim()});
+  b.value=""; render(); setTimeout(()=>{const c=document.getElementById("chat");if(c)c.scrollTop=9999;},50);
+}
+function advance(){ const n={new:"prog",appr:"prog",prog:"ready",ready:"done"}; cur.status=n[cur.status]||cur.status; toast("Статус обновлён · врач уведомлён push-сообщением"); render(); }
+function approve(){ cur.status="prog"; toast("Конструкция согласована · запущена в производство"); render(); }
+function assignTech(){ cur.tech=TECHS[(cur.id.charCodeAt(5))%3]; toast("Техник назначен: "+cur.tech); render(); }
+
+/* ====================== НОВЫЙ ЗАКАЗ ====================== */
+let teethMap={}, activeCode="C", pickedShade="A2";
+function viewNew(){
+  teethMap={}; activeCode="C"; pickedShade="A2";
+  const q1=[18,17,16,15,14,13,12,11], q2=[21,22,23,24,25,26,27,28];
+  const q4=[48,47,46,45,44,43,42,41], q3=[31,32,33,34,35,36,37,38];
+  const trow=(arr)=>`<div class="tooth-row">${arr.map(n=>`<div class="tooth" id="t${n}" onclick="tgT(${n})"><div class="crown" id="c${n}"></div><div class="n">${(n+'').replace(/(\d)(\d)/,'$1.$2')}</div></div>`).join("")}</div>`;
+  return `
+  <div class="page-head"><div><h1>Новый заказ-наряд</h1><p>Привычный бумажный бланк — только онлайн и сразу полный</p></div></div>
+  <div class="banner"><span class="bi">🦷</span><div><b>Формула зубов</b><p>Выберите код работы, затем кликайте по зубам. Лаборатория получит наряд без «дозвонов» и расшифровки почерка.</p></div></div>
+  <div class="form-grid">
+    <div class="card" style="padding:22px">
+      <div class="section-title">Вид работы по зубам</div>
+      <div class="codes" id="codes">${CODES.map(([c,l])=>`<button class="code ${c==='C'?'sel':''}" onclick="setCode('${c}',this)"><b>${c}</b>${l}</button>`).join("")}</div>
+      <div class="tooth-wrap">
+        ${trow(q1)+trow(q2)}
+        <div class="midline"><span>верхняя / нижняя</span></div>
+        ${trow(q4)+trow(q3)}
+      </div>
+      <div class="sel-summary" id="selsum">Зубы не выбраны — выберите код выше и кликните по зубу</div>
+
+      <div class="section-title" style="margin-top:22px">Коронки на имплантах</div>
+      <div class="row2">
+        <div class="field" style="margin:0"><label>Фиксация</label><select><option>—</option><option>Цементная</option><option>Винтовая</option></select></div>
+        <div class="field" style="margin:0"><label>Система / диаметр</label><input placeholder="напр. Osstem ø4.0"></div>
+      </div>
+
+      <div class="section-title" style="margin-top:22px">Информация о форме и цвете</div>
+      <div class="row2">
+        <div class="field" style="margin:0"><label>Исходный цвет зуба</label><input placeholder="напр. A3"></div>
+        <div class="field" style="margin:0"><label>Требуемый цвет (VITA)</label>
+          <select id="shadeSel" onchange="pickedShade=this.value">${SHADES.map(s=>`<option ${s==='A2'?'selected':''}>${s}</option>`).join("")}</select></div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin:8px 0 0">📷 Цветовую карту присылайте фото вместе с работой (как в бумажном наряде).</p>
+    </div>
+
+    <div class="card" style="padding:22px">
+      <div class="section-title">Данные заказа</div>
+      <div class="field"><label>Пациент</label><input placeholder="Фамилия И.О."></div>
+      <div class="field"><label>Вид работы</label><select>${SERVICES.map(([s,p])=>`<option>${s} — ${p}</option>`).join("")}</select></div>
+      <div class="field"><label>Материал</label>
+        <select><option>Диоксид циркония (ZrO)</option><option>Металлокерамика (CoCr)</option><option>Керамика прессованная</option><option>PMMA</option><option>КХС (цельнолитой)</option></select></div>
+      <div class="field"><label>Желаемый срок сдачи</label><input type="date"></div>
+      <div class="field"><label>Слепки / сканы</label>
+        <div onclick="toast('Файл прикреплён (демо)')" style="border:1.5px dashed var(--line);border-radius:10px;padding:16px;text-align:center;color:var(--muted);cursor:pointer;font-size:13px">📎 Перетащите STL/фото или нажмите<br><span style="font-size:11.5px">или вызовите курьера за физическими слепками</span></div>
+      </div>
+      <div class="field"><label>Примечание</label><textarea rows="2" placeholder="Уступ, особенности прикуса, пожелания…"></textarea></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="submitOrder()">Отправить заказ в лабораторию</button>
+    </div>
+  </div>
+  ${footer()}`;
+}
+function setCode(c,el){ activeCode=c; document.querySelectorAll("#codes .code").forEach(x=>x.classList.remove("sel")); el.classList.add("sel"); }
+function tgT(n){
+  const cr=document.getElementById("c"+n), tw=document.getElementById("t"+n);
+  if(teethMap[n]===activeCode){ delete teethMap[n]; cr.textContent=""; tw.classList.remove("has"); }
+  else { teethMap[n]=activeCode; cr.textContent=activeCode; tw.classList.add("has"); }
+  const keys=Object.keys(teethMap);
+  document.getElementById("selsum").innerHTML = keys.length
+    ? keys.map(t=>`<span class="chip-t">${(t+'').replace(/(\d)(\d)/,'$1.$2')} · ${teethMap[t]}</span>`).join("")
+    : "Зубы не выбраны — выберите код выше и кликните по зубу";
+}
+function submitOrder(){
+  if(!Object.keys(teethMap).length){ toast("Отметьте хотя бы один зуб на формуле"); return; }
+  const id="ZL-"+(1043+orders.length-4);
+  orders.unshift({id,first:"Новый",last:"Пациент",clinic:"Клиника «Смайл»",doctor:"Иванова Е.В.",
+    service:"Циркониевая коронка",teeth:Object.assign({},teethMap),shadeFrom:"A3",shade:pickedShade,
+    material:"Диоксид циркония",implant:"—",status:"new",tech:"—",date:"31.05",ready:"05.06",price:"8 000 ₽",
+    chat:[],files:[{n:"new_scan.stl",d3:true}]});
+  toast("Заказ "+id+" отправлен в лабораторию ✓");
+  go("orders");
+}
+
+/* ====================== ПРОЧИЕ ЭКРАНЫ ====================== */
+function viewBoard(){
+  const cols=[["new","Новые"],["prog","В производстве"],["ready","Готовы"]];
+  return `<div class="page-head"><div><h1>Производство</h1><p>Доска заказов по стадиям · подразделения CAD / CAM / литейная / керамика</p></div></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+   ${cols.map(([k,l])=>`<div>
+     <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:10px">${l} · ${orders.filter(o=>o.status===k).length}</div>
+     ${orders.filter(o=>o.status===k).map(o=>`<div class="card" style="padding:14px;margin-bottom:10px;cursor:pointer" onclick="openOrder('${o.id}')">
+        <div class="num">${o.id}</div><div class="pt-name" style="margin-top:3px">${o.last} ${o.first[0]}.</div>
+        <div class="pt-sub">${o.service}</div>
+        <div class="pt-sub" style="margin-top:6px">${o.tech==='—'?'<span style="color:#c0392b">техник не назначен</span>':'👤 '+o.tech}</div></div>`).join("")||'<div style="color:#bbb;font-size:13px;padding:10px">пусто</div>'}
+   </div>`).join("")}
+  </div>${footer()}`;
+}
+function viewInvoices(){
+  const rows=orders.map(o=>`<div class="row" style="cursor:default;grid-template-columns:96px 1fr 130px 130px">
+    <div class="num">${o.id}</div><div class="pt-name">${o.last} ${o.first[0]}. · ${o.service}</div>
+    <div class="v" style="font-weight:700">${o.price}</div>
+    <div><span class="badge ${o.status==='done'?'b-ready':'b-prog'}">${o.status==='done'?'Оплачен':'Ожидает'}</span></div></div>`).join("");
+  const sum=orders.reduce((a,o)=>a+(parseInt(o.price.replace(/\D/g,''))||0),0);
+  return `<div class="page-head"><div><h1>Счета и оплаты</h1><p>${role==='doctor'?'Ваши счета от лаборатории':'Выставленные счета клиникам'}</p></div></div>
+   <div class="kpis"><div class="kpi"><div class="v">${sum.toLocaleString('ru')} ₽</div><div class="l">Сумма за месяц</div></div>
+     <div class="kpi"><div class="v">1</div><div class="l">Оплачено</div></div>
+     <div class="kpi"><div class="v">${orders.length-1}</div><div class="l">Ожидает оплаты</div></div>
+     <div class="kpi"><div class="v">0</div><div class="l">Просрочено</div></div></div>
+   <div class="card list"><div class="row head" style="grid-template-columns:96px 1fr 130px 130px"><div>№</div><div>Работа</div><div>Сумма</div><div>Статус</div></div>${rows}</div>${footer()}`;
+}
+function viewClients(){
+  const cl=[["Клиника «Смайл»","Иванова Е.В.","3 заказа"],["Дент-Люкс","Соколов Р.И.","2 заказа"],["Альфа-Дент","Петров Т.М.","1 заказ"]];
+  return `<div class="page-head"><div><h1>Врачи и клиники</h1><p>Клиники-партнёры лаборатории</p></div>
+    <button class="btn btn-primary" onclick="toast('Ссылка-приглашение скопирована')">＋ Пригласить врача</button></div>
+   <div class="card list"><div class="row head" style="grid-template-columns:1fr 1fr 130px"><div>Клиника</div><div>Врач</div><div>Заказы</div></div>
+   ${cl.map(([a,b,c])=>`<div class="row" style="cursor:default;grid-template-columns:1fr 1fr 130px"><div class="pt-name">${a}</div><div class="pt-sub">${b}</div><div class="pt-sub">${c}</div></div>`).join("")}</div>${footer()}`;
+}
+function footer(){ return `<div class="footer-note">Демо-кабинет зуботехнической лаборатории · white-label · данные тестовые<br>Бренд, цвет и домен настраиваются под вашу лабораторию</div>`; }
+
+/* ====================== TOAST ====================== */
+let tT;
+function toast(m){ const t=document.getElementById("toast"); document.getElementById("toast-msg").textContent=m; t.classList.add("show"); clearTimeout(tT); tT=setTimeout(()=>t.classList.remove("show"),2600); }
+
+/* ====================== ТУР ПО КАБИНЕТУ ====================== */
+const TOUR=[
+  {sel:".brandmark", t:"Ваш бренд", d:"Здесь — логотип вашей ЗТЛ. Кабинет работает в вашем фирменном стиле (white-label)."},
+  {sel:"#nav", t:"Разделы кабинета", d:"Заказы, новый заказ-наряд, счета. У лаборатории добавляются «Производство» и «Врачи»."},
+  {sel:".list .row", t:"Карточка заказа", d:"Откройте заказ — статус, чат с техником, файлы и 3D-сканы, история. Всё по работе в одном месте."},
+  {sel:".switch", t:"Две стороны", d:"«Сменить роль» — посмотрите кабинет со стороны лаборатории: приём, производство, счета."},
+  {sel:".demofab", t:"Бренд и цвет", d:"Переключите демо-бренд и фирменный цвет — увидите кабинет в стиле вашей лаборатории."},
+];
+let tourI=0, tourSeen=false;
+function startTour(){
+  if(document.getElementById("app").classList.contains("hidden")) return;
+  if(activeNav!=="orders"||cur){ go("orders"); }
+  tourI=0; document.getElementById("tour").classList.remove("hidden");
+  setTimeout(showTourStep,60);
+}
+function showTourStep(){
+  const step=TOUR[tourI], el=document.querySelector(step.sel);
+  if(!el){ return nextTour(); }
+  el.scrollIntoView({block:"center"});
+  const r=el.getBoundingClientRect(), pad=7;
+  const spot=document.getElementById("tourSpot");
+  spot.style.left=(r.left-pad)+"px"; spot.style.top=(r.top-pad)+"px";
+  spot.style.width=(r.width+pad*2)+"px"; spot.style.height=(r.height+pad*2)+"px";
+  document.getElementById("tourTitle").textContent=step.t;
+  document.getElementById("tourText").textContent=step.d;
+  document.getElementById("tourProg").textContent=(tourI+1)+" / "+TOUR.length;
+  document.getElementById("tourNext").textContent=(tourI===TOUR.length-1?"Готово":"Далее");
+  const tip=document.getElementById("tourTip");
+  const tw=Math.min(300,window.innerWidth-24), th=tip.offsetHeight||150;
+  let left=Math.min(Math.max(12,r.left), window.innerWidth-tw-12);
+  let top=(r.bottom+12+th<window.innerHeight)? r.bottom+12 : Math.max(12,r.top-th-12);
+  tip.style.left=left+"px"; tip.style.top=top+"px";
+}
+function nextTour(){ tourI++; if(tourI>=TOUR.length) return endTour(); showTourStep(); }
+function endTour(){ document.getElementById("tour").classList.add("hidden"); }
+
+/* ====================== СТАРТ ====================== */
+buildDemoPanel();
+applyBrand(0);
+</script>
+</body>
+</html>
